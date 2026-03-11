@@ -1,0 +1,40 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Alumni {
+  id              String      @id @default(cuid())
+  slug            String      @unique
+  fullName        String
+  currentJobTitle String
+  company         String
+  companyType     String
+  industry        String
+  location        String
+  degree          String
+  major           String
+  graduationYear  Int
+  email           String
+  bio             String
+  helpTopics      String
+  starCount       Int         @default(0)
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+  starAwards      StarAward[]
+}
+
+model StarAward {
+  id        String   @id @default(cuid())
+  alumniId  String
+  clientId  String
+  createdAt DateTime @default(now())
+  alumni    Alumni   @relation(fields: [alumniId], references: [id], onDelete: Cascade)
+
+  @@unique([alumniId, clientId])
+}
+
