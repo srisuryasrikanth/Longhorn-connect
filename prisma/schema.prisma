@@ -26,6 +26,7 @@ model Alumni {
   createdAt       DateTime    @default(now())
   updatedAt       DateTime    @updatedAt
   starAwards      StarAward[]
+  jobPostings     JobPosting[]
 }
 
 model StarAward {
@@ -36,4 +37,22 @@ model StarAward {
   alumni    Alumni   @relation(fields: [alumniId], references: [id], onDelete: Cascade)
 
   @@unique([alumniId, clientId])
+}
+
+model JobPosting {
+  id             String   @id @default(cuid())
+  alumniId       String
+  title          String
+  company        String
+  location       String
+  employmentType String
+  workMode       String
+  description    String
+  applyUrl       String?
+  applyEmail     String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  alumni         Alumni   @relation(fields: [alumniId], references: [id], onDelete: Cascade)
+
+  @@index([createdAt])
 }

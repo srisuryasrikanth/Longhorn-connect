@@ -18,6 +18,63 @@ export type AlumniProfile = {
 
 export type SeedAlumniProfile = Omit<AlumniProfile, "id">;
 
+export type JobPosting = {
+  id: string;
+  alumniId: string;
+  title: string;
+  company: string;
+  location: string;
+  employmentType: string;
+  workMode: string;
+  description: string;
+  applyUrl?: string;
+  applyEmail: string;
+  createdAt: string;
+  updatedAt: string;
+  alumni: Pick<AlumniProfile, "id" | "slug" | "fullName" | "currentJobTitle" | "email">;
+};
+
+export type SeedJobPosting = {
+  alumniSlug: string;
+  title: string;
+  location: string;
+  employmentType: string;
+  workMode: string;
+  description: string;
+  applyUrl?: string;
+};
+
+export type JobBoardAlumniOption = Pick<AlumniProfile, "id" | "slug" | "fullName" | "company" | "currentJobTitle" | "email">;
+
+export type CreateJobPostingInput = {
+  alumniId: string;
+  title: string;
+  location: string;
+  employmentType: string;
+  workMode: string;
+  description: string;
+  applyUrl?: string;
+};
+
+export type JobBoardResponse = {
+  jobs: JobPosting[];
+  alumniOptions: JobBoardAlumniOption[];
+};
+
+export type JobPostingsApiResponse = {
+  jobs: JobPosting[];
+};
+
+export type CreateJobPostingApiResponse =
+  | {
+      status: "created";
+      job: JobPosting;
+    }
+  | {
+      status: "validation_error";
+      message: string;
+    };
+
 export type SearchFilters = {
   location?: string;
   major?: string;
@@ -68,4 +125,3 @@ export type StarAwardResult =
   | { status: "awarded"; starCount: number }
   | { status: "duplicate"; starCount: number }
   | { status: "not_found" };
-

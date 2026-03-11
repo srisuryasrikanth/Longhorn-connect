@@ -25,7 +25,7 @@ A simple full-stack MVP built with Next.js App Router, TypeScript, Tailwind CSS,
    ```bash
    npm run db:push
    ```
-4. Seed the fictional alumni data locally:
+4. Seed the fictional alumni and job-board data locally:
    ```bash
    npm run db:seed
    ```
@@ -48,7 +48,10 @@ The local Prisma CLI uses `DATABASE_URL="file:./dev.db"`, which places the SQLit
    ```bash
    npm run db:push:turso
    ```
-4. Seed Turso with the fictional alumni profiles. `npm run db:seed` now uses Turso whenever `TURSO_DATABASE_URL` is set in your shell:\n   ```bash\n   npm run db:seed\n   ```
+4. Seed Turso with the fictional alumni profiles and job postings. `npm run db:seed` now uses Turso whenever `TURSO_DATABASE_URL` is set in your shell:
+   ```bash
+   npm run db:seed
+   ```
 5. In Vercel Project Settings, add `TURSO_DATABASE_URL` and `TURSO_AUTH_TOKEN` as environment variables, then deploy.
 
 Notes:
@@ -73,10 +76,12 @@ npm run build
 ## What is included
 
 - 40 fictional alumni profiles with clearly fake names, companies, and `example.com` email addresses
+- 8 fictional alumni-posted job listings seeded into the job board
 - Natural-language alumni search with a local weighted relevance algorithm
 - Search score breakdown shown in the UI so students can see why results rank where they do
 - Alumni detail pages
-- `mailto:` outreach buttons with a friendly student template
+- A dedicated `/jobs` route where alumni can post roles and students can browse openings
+- `mailto:` outreach buttons for both alumni discovery and job-board follow-up
 - Persistent star counts stored in SQLite locally or Turso in deployment
 - Browser-level duplicate star prevention with `localStorage`
 - Backend duplicate-star guard using a unique `(alumniId, clientId)` constraint
@@ -86,6 +91,7 @@ npm run build
 ## Assumptions and tradeoffs
 
 - The MVP intentionally skips authentication, so stars are guarded only by browser local storage and a lightweight backend client identifier.
+- The job board uses a selected alumni profile as the poster identity because there is no authentication yet.
 - The natural-language search is local and heuristic-based instead of semantic embeddings, which keeps the app easy to run locally and avoids paid services.
 - Search filters are exact-match dropdowns for simplicity.
 - Messaging is intentionally limited to `mailto:` so the app stays local-first and easy to understand.
@@ -93,7 +99,8 @@ npm run build
 
 ## Future improvements
 
-- Add authentication so stars, saved outreach, and favorites are tied to real student accounts.
+- Add authentication so stars, job posts, saved outreach, and favorites are tied to real student or alumni accounts.
+- Add job editing, expiration dates, and moderation controls for alumni postings.
 - Add conversation logging or CRM-style outreach tracking instead of `mailto:` only.
 - Introduce semantic search behind a feature flag when an API key is available.
 - Add richer alumni tags, saved searches, and pagination.

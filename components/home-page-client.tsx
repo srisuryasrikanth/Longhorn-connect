@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { FormEvent, useState, useTransition } from "react";
 
 import AlumniCard from "@/components/alumni-card";
@@ -115,8 +116,17 @@ export default function HomePageClient({ initialSearch, filterOptions, leaderboa
               Find UT Austin alumni who can actually help with your next step.
             </h1>
             <p className="mt-4 max-w-2xl text-base leading-8 text-slate/75 md:text-lg">
-              Search with plain language, discover fictional alumni across industries, and reach out with a prefilled email in a couple of clicks.
+              Search with plain language, discover fictional alumni across industries, reach out with a prefilled email, and browse alumni-posted roles.
             </p>
+            <div className="mt-6 flex flex-wrap items-center gap-3">
+              <Link
+                href="/jobs"
+                className="rounded-full bg-burnt px-5 py-3 text-sm font-semibold text-white transition hover:bg-ember"
+              >
+                Explore job board
+              </Link>
+              <span className="text-sm text-slate/65">New: alumni can now post opportunities for students directly in the app.</span>
+            </div>
           </div>
           <div className="rounded-[2rem] border border-burnt/15 bg-cream p-5">
             <p className="text-sm font-semibold text-slate">How ranking works</p>
@@ -274,4 +284,3 @@ export default function HomePageClient({ initialSearch, filterOptions, leaderboa
     </div>
   );
 }
-
