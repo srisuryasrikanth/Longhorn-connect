@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "prisma generate && next build",
+    "build": "next build",
     "start": "next start",
     "lint": "eslint . --ext .ts,.tsx",
     "typecheck": "tsc --noEmit",
@@ -12,12 +12,15 @@
     "test:watch": "vitest",
     "prisma:generate": "prisma generate",
     "db:push": "node scripts/db-push.mjs",
+    "db:push:turso": "node scripts/db-push-turso.mjs",
     "db:seed": "tsx prisma/seed.ts",
     "db:reset": "node scripts/db-reset.mjs",
     "postinstall": "prisma generate"
   },
   "dependencies": {
-    "@prisma/client": "^6.6.0",
+    "@libsql/client": "^0.17.0",
+    "@prisma/adapter-libsql": "^6.19.2",
+    "@prisma/client": "^6.19.2",
     "next": "^15.2.4",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
@@ -27,14 +30,14 @@
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
     "autoprefixer": "^10.4.20",
+    "dotenv": "^17.3.1",
     "eslint": "^8.57.1",
     "eslint-config-next": "^15.2.4",
     "postcss": "^8.5.3",
-    "prisma": "^6.6.0",
+    "prisma": "^6.19.2",
     "tailwindcss": "^3.4.17",
     "tsx": "^4.19.3",
     "typescript": "^5.8.2",
     "vitest": "^3.0.9"
   }
 }
-

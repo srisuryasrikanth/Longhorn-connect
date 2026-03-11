@@ -1,8 +1,5 @@
-import { PrismaClient } from "@prisma/client";
-
+import { prisma } from "../lib/prisma";
 import { seedAlumniProfiles } from "../lib/data/alumni-seed";
-
-const prisma = new PrismaClient();
 
 async function main() {
   await prisma.starAward.deleteMany();
@@ -25,4 +22,3 @@ main()
   .finally(async () => {
     await prisma.$disconnect();
   });
-

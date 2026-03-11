@@ -1,15 +1,17 @@
 # UT Austin Alumni Connector
 
-A simple full-stack MVP built with Next.js App Router, TypeScript, Tailwind CSS, Prisma, and SQLite. It helps students discover fictional UT Austin alumni, search with natural language, send email outreach with a `mailto:` template, award stars, and view a top-10 leaderboard.
+A simple full-stack MVP built with Next.js App Router, TypeScript, Tailwind CSS, Prisma, and SQLite-compatible storage. Locally it runs against SQLite; for deployment it can use Turso through Prisma's libSQL adapter.
 
 ## Tech stack
 
 - Next.js App Router + TypeScript
 - Tailwind CSS
-- Prisma + SQLite
+- Prisma ORM
+- Local SQLite for development
+- Turso for cloud deployment
 - Vitest for unit tests
 
-## Setup
+## Local setup
 
 1. Install dependencies:
    ```bash
@@ -19,11 +21,11 @@ A simple full-stack MVP built with Next.js App Router, TypeScript, Tailwind CSS,
    ```bash
    Copy-Item .env.example .env
    ```
-3. Create or update the SQLite schema:
+3. Create or update the local SQLite schema:
    ```bash
    npm run db:push
    ```
-4. Seed the fictional alumni data:
+4. Seed the fictional alumni data locally:
    ```bash
    npm run db:seed
    ```
@@ -32,13 +34,35 @@ A simple full-stack MVP built with Next.js App Router, TypeScript, Tailwind CSS,
    npm run dev
    ```
 
-The default `.env` value is `DATABASE_URL="file:./dev.db"`, which places the SQLite database in the `prisma` folder.
+The local Prisma CLI uses `DATABASE_URL="file:./dev.db"`, which places the SQLite database in the `prisma` folder.
+
+## Vercel + Turso deployment
+
+1. Create a Turso database and auth token in the Turso dashboard or CLI.
+2. Set local PowerShell env vars before provisioning the remote schema:
+   ```bash
+   $env:TURSO_DATABASE_URL="libsql://your-database-your-org.turso.io"
+   $env:TURSO_AUTH_TOKEN="your-turso-auth-token"
+   ```
+3. Push the current Prisma schema to Turso:
+   ```bash
+   npm run db:push:turso
+   ```
+4. Seed Turso with the fictional alumni profiles. `npm run db:seed` now uses Turso whenever `TURSO_DATABASE_URL` is set in your shell:\n   ```bash\n   npm run db:seed\n   ```
+5. In Vercel Project Settings, add `TURSO_DATABASE_URL` and `TURSO_AUTH_TOKEN` as environment variables, then deploy.
+
+Notes:
+
+- The app automatically uses Turso at runtime whenever `TURSO_DATABASE_URL` is present.
+- Local Prisma CLI commands still use `DATABASE_URL`, which keeps local schema diffing simple.
+- `npm run db:push:turso` is intentionally simple and best for initial schema creation or reapplying the current MVP schema.
 
 ## Useful commands
 
 ```bash
 npm run dev
 npm run db:push
+npm run db:push:turso
 npm run db:seed
 npm test
 npm run lint
@@ -53,7 +77,7 @@ npm run build
 - Search score breakdown shown in the UI so students can see why results rank where they do
 - Alumni detail pages
 - `mailto:` outreach buttons with a friendly student template
-- Persistent star counts stored in SQLite
+- Persistent star counts stored in SQLite locally or Turso in deployment
 - Browser-level duplicate star prevention with `localStorage`
 - Backend duplicate-star guard using a unique `(alumniId, clientId)` constraint
 - Home page leaderboard preview and a full leaderboard page
@@ -65,7 +89,7 @@ npm run build
 - The natural-language search is local and heuristic-based instead of semantic embeddings, which keeps the app easy to run locally and avoids paid services.
 - Search filters are exact-match dropdowns for simplicity.
 - Messaging is intentionally limited to `mailto:` so the app stays local-first and easy to understand.
-- `npm run db:push` uses a Prisma diff-and-execute helper script because `prisma db push` itself was flaky in this Windows sandbox.
+- The Turso deployment path keeps Prisma CLI on local SQLite while the runtime client switches to Turso.
 
 ## Future improvements
 
@@ -73,4 +97,4 @@ npm run build
 - Add conversation logging or CRM-style outreach tracking instead of `mailto:` only.
 - Introduce semantic search behind a feature flag when an API key is available.
 - Add richer alumni tags, saved searches, and pagination.
-- Add integration tests for the route handlers and Prisma-backed services.
+- Add a proper migration pipeline for applying incremental schema changes to Turso.
