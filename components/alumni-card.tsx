@@ -17,7 +17,7 @@ const BREAKDOWN_LABELS: Record<DisplayBreakdownKey, string> = {
   jobTitle: "Title",
   company: "Company",
   location: "Location",
-  education: "UT education",
+  education: "Background",
   helpTopics: "Bio/help",
   starSignal: "Stars"
 };

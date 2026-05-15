@@ -16,7 +16,22 @@ export function splitCommaList(value: string): string[] {
 }
 
 export function formatEducation(alumni: Pick<AlumniProfile, "degree" | "major" | "graduationYear">): string {
-  return `${alumni.degree} in ${alumni.major}, ${alumni.graduationYear}`;
+  const degree = alumni.degree.trim();
+  const major = alumni.major.trim();
+
+  if (degree && major && alumni.graduationYear > 0) {
+    return `${degree} in ${major}, ${alumni.graduationYear}`;
+  }
+
+  if (degree && major) {
+    return `${degree} in ${major}`;
+  }
+
+  if (major) {
+    return major;
+  }
+
+  return degree || "Background not available";
 }
 
 export function getFirstName(fullName: string): string {
@@ -27,12 +42,13 @@ export function buildMailtoLink(
   alumni: Pick<AlumniProfile, "email" | "fullName" | "currentJobTitle" | "company" | "major">
 ): string {
   const firstName = getFirstName(alumni.fullName);
+  const focus = alumni.major.trim() || "your field";
   const subject = `UT Austin student reaching out about your path at ${alumni.company}`;
   const body = [
     `Hi ${firstName},`,
     "",
     "I am a current UT Austin student and found your profile in the Alumni Connector.",
-    `I would love to learn more about your path into ${alumni.currentJobTitle} and any advice you have for students interested in ${alumni.major}.`,
+    `I would love to learn more about your path into ${alumni.currentJobTitle} and any advice you have for students interested in ${focus}.`,
     "",
     "If you have time for a quick chat, I would really appreciate it.",
     "",

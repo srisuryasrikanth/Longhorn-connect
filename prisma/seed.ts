@@ -46,7 +46,7 @@ async function main() {
     });
   }
 
-  console.log(`Seeded ${seedAlumniProfiles.length} fictional alumni profiles and ${seedJobPostings.length} job postings.`);
+  console.log(`Seeded ${seedAlumniProfiles.length} default profiles and ${seedJobPostings.length} job postings.`);
 }
 
 main()

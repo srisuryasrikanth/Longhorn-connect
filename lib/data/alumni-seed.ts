@@ -1,6 +1,7 @@
 import type { SeedAlumniProfile } from "@/lib/types";
+import { recruitingSeedProfiles } from "@/lib/data/recruiting-seed";
 
-export const seedAlumniProfiles: SeedAlumniProfile[] = [
+const coreSeedAlumniProfiles: SeedAlumniProfile[] = [
   {
     slug: "avery-patel",
     fullName: "Avery Patel",
@@ -642,4 +643,6 @@ export const seedAlumniProfiles: SeedAlumniProfile[] = [
     starCount: 19
   }
 ];
+
+export const seedAlumniProfiles: SeedAlumniProfile[] = [...coreSeedAlumniProfiles, ...recruitingSeedProfiles];
 

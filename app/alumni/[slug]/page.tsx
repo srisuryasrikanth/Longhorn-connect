@@ -31,7 +31,7 @@ export default async function AlumniDetailPage({ params }: AlumniDetailPageProps
         <div className="flex flex-col gap-8 lg:flex-row lg:justify-between">
           <div className="space-y-5">
             <div>
-              <p className="text-sm font-semibold uppercase tracking-[0.22em] text-burnt/70">Alumni detail</p>
+              <p className="text-sm font-semibold uppercase tracking-[0.22em] text-burnt/70">Profile detail</p>
               <h1 className="mt-3 font-[family-name:var(--font-display)] text-4xl text-slate md:text-5xl">{alumni.fullName}</h1>
               <p className="mt-3 text-xl font-semibold text-slate/90">
                 {alumni.currentJobTitle} at {alumni.company}
@@ -56,7 +56,7 @@ export default async function AlumniDetailPage({ params }: AlumniDetailPageProps
             </a>
             <StarButton alumniId={alumni.id} initialStarCount={alumni.starCount} />
             <div className="rounded-2xl border border-slate/10 bg-white px-4 py-3 text-sm text-slate/75">
-              <p className="font-semibold text-slate">UT Austin education</p>
+              <p className="font-semibold text-slate">Background</p>
               <p className="mt-2">{formatEducation(alumni)}</p>
             </div>
           </div>
